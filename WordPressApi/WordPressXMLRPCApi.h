@@ -23,6 +23,7 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 #import "WordPressBaseApi.h"
+#import "WPXMLRPCClient.h"
 
 extern NSString *const WordPressXMLRPCApiErrorDomain;
 
@@ -35,6 +36,10 @@ typedef NS_ENUM(NSInteger, WordPressXMLRPCApiError) {
  WordPress API for iOS 
 */
 @interface WordPressXMLRPCApi : NSObject <WordPressBaseApi>
+
+@property (readwrite, nonatomic, retain) WPXMLRPCClient *client;
+@property (readwrite, nonatomic, retain) NSString *username;
+@property (readwrite, nonatomic, retain) NSString *password;
 
 ///-----------------------------------------
 /// @name Accessing WordPress API properties

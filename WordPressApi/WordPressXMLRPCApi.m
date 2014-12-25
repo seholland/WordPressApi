@@ -22,16 +22,14 @@
 
 
 #import "WordPressXMLRPCApi.h"
-#import "WPXMLRPCClient.h"
+
 #import "WPRSDParser.h"
 
 NSString *const WordPressXMLRPCApiErrorDomain = @"WordPressXMLRPCApiError";
 
 @interface WordPressXMLRPCApi ()
 @property (readwrite, nonatomic, retain) NSURL *xmlrpc;
-@property (readwrite, nonatomic, retain) NSString *username;
-@property (readwrite, nonatomic, retain) NSString *password;
-@property (readwrite, nonatomic, retain) WPXMLRPCClient *client;
+
 
 - (NSArray *)buildParametersWithExtra:(id)extra;
 
