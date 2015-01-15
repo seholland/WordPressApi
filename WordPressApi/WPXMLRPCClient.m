@@ -153,37 +153,35 @@ static NSUInteger const WPXMLRPCClientDefaultMaxConcurrentOperationCount = 4;
     if ([extra_debug boolValue]) extra_debug_on = YES;
 #endif
 
-    void (^xmlrpcSuccess)(AFHTTPRequestOperation *, id) = ^(AFHTTPRequestOperation *operation, id responseObject) {
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void) {
-            WPXMLRPCDecoder *decoder = [[WPXMLRPCDecoder alloc] initWithData:responseObject];
-            NSError *err = nil;
-            if ( extra_debug_on == YES ) {
-                WPFLog(@"[XML-RPC] < %@", operation.responseString);
-            }
-
-            if ([decoder isFault] || [decoder object] == nil) {
-                err = [decoder error];
-            }
-
-            if ([decoder object] == nil && extra_debug_on) {
-                WPFLog(@"Blog returned invalid data (URL: %@)\n%@", request.URL.absoluteString, operation.responseString);
-            }
-
-            id object = [[decoder object] copy];
-
-            dispatch_async(dispatch_get_main_queue(), ^(void) {
-                if (err) {
-                    if (failure) {
-                        failure(operation, err);
-                    }
-                } else {
-                    if (success) {
-                        success(operation, object);
-                    }
-                }
-            });
-        });
-    };
+	void (^xmlrpcSuccess)(AFHTTPRequestOperation *, id) = ^(AFHTTPRequestOperation *operation, id responseObject) {
+		dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void) {
+			WPXMLRPCDecoder *decoder = [[WPXMLRPCDecoder alloc] initWithData:responseObject];
+			NSError *err = nil;
+			if ( extra_debug_on == YES ) {
+				WPFLog(@"[XML-RPC] < %@", operation.responseString);
+			}
+			
+			if ([decoder isFault] || [decoder object] == nil) {
+				err = [decoder error];
+			}
+			
+			if ([decoder object] == nil && extra_debug_on) {
+				WPFLog(@"Blog returned invalid data (URL: %@)\n%@", request.URL.absoluteString, operation.responseString);
+			}
+			
+			id object = [[decoder object] copy];
+			
+			if (err) {
+				if (failure) {
+					failure(operation, err);
+				}
+			} else {
+				if (success) {
+					success(operation, object);
+				}
+			}
+		});
+	};
     void (^xmlrpcFailure)(AFHTTPRequestOperation *, NSError *) = ^(AFHTTPRequestOperation *operation, NSError *error) {
         if ( extra_debug_on == YES ) {
             WPFLog(@"[XML-RPC] ! %@", [error localizedDescription]);
