@@ -66,8 +66,13 @@ NSString *const WordPressXMLRPCApiErrorDomain = @"WordPressXMLRPCApiError";
     return self;
 }
 
-#pragma mark - Authentication
+- (NSOperationQueue *)operationQueue
+{
+    return self.client.operationQueue;
+}
 
+
+#pragma mark - Authentication
 
 - (void)authenticateWithSuccess:(void (^)())success
                         failure:(void (^)(NSError *error))failure {
