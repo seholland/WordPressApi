@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <ChefTapCore/WPXMLRPC.h>
+#import "WPXMLRPC.h"
 #import <AFNetworking/AFNetworking.h>
 
 #import "WPXMLRPCClient.h"
