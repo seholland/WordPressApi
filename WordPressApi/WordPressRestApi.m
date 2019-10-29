@@ -11,7 +11,7 @@
 
 #import "WordPressRestApi.h"
 #import "WordPressRestApiJSONRequestOperation.h"
-#import "WordPressRestApiJSONRequestOperationManager.h"
+#import "WordPressRestApiJSONSessionManager.h"
 #import "WPComOAuthController.h"
 
 NSString *const WordPressRestApiEndpointURL = @"https://public-api.wordpress.com/rest/v1/";
@@ -21,7 +21,7 @@ NSString *const WordPressRestApiErrorCodeKey = @"WordPressRestApiErrorCodeKey";
 @implementation WordPressRestApi {
     NSString *_token;
     NSString *_siteId;
-    AFHTTPRequestOperationManager *_operationManager;
+	AFHTTPRequestOperationManager *_operationManager;
 }
 
 static NSString *WordPressRestApiClient = nil;
@@ -52,7 +52,7 @@ static NSString *WordPressRestApiRedirectUrl = nil;
         _token = authToken;
         _siteId = siteId;
 		
-        _operationManager = [[WordPressRestApiJSONRequestOperationManager alloc] initWithBaseURL:baseURL
+        _operationManager = [[WordPressRestApiJSONSessionManager alloc] initWithBaseURL:baseURL
 																						   token:_token];
     }
 	
