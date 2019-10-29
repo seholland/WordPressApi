@@ -81,7 +81,7 @@ typedef NS_ENUM(NSInteger, WordPressXMLRPCApiError) {
  @param success A block object to execute when the credentials are valid. This block has no return value.
  @param failure A block object to execute when the credentials can't be verified. This block has no return value and takes one argument: a NSError object with details on the error.
  */
-- (void)authenticateWithSuccess:(void (^)())success
+- (void)authenticateWithSuccess:(void (^)(void))success
                         failure:(void (^)(NSError *error))failure;
 
 /**

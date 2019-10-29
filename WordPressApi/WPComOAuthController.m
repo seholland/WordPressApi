@@ -47,7 +47,7 @@ NSString *const WPComOAuthErrorDomain = @"WPComOAuthError";
 
     if (![[self class] isThisTheWordPressApp] && [[self class] isWordPressAppAvailable] && !_username && !_password) {
         NSString *url = [NSString stringWithFormat:@"%@://authorize?client_id=%@&redirect_uri=%@", [[self class] wordpressAppURLScheme], _clientId, _redirectUrl];
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:url]];
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:url] options:@{} completionHandler:nil];
     } else {
         [self presentMe];
     }
@@ -96,6 +96,14 @@ NSString *const WPComOAuthErrorDomain = @"WPComOAuthError";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    if (@available(iOS 13.0, *))
+    {
+        self.overrideUserInterfaceStyle = UIUserInterfaceStyleLight;
+    }
+    else
+    {
+        // Fallback on earlier versions
+    }
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancel:)];
 }
 
@@ -250,16 +258,16 @@ NSString *const WPComOAuthErrorDomain = @"WPComOAuthError";
         if (token && blogUrl) {
             [self dismissMe];
 
-            if (_completionBlock) {
-                _completionBlock(token, blogId, blogUrl, scope, nil);
+            if (self->_completionBlock) {
+                self->_completionBlock(token, blogId, blogUrl, scope, nil);
             }
         } else if ([response objectForKey:@"error_description"]) {
-            if (_completionBlock) {
-                _completionBlock(nil, nil, nil, nil, [NSError errorWithDomain:WPComOAuthErrorDomain code:WPComOAuthErrorCodeUnknown userInfo:@{NSLocalizedDescriptionKey: [response objectForKey:@"error_description"]}]);
+            if (self->_completionBlock) {
+                self->_completionBlock(nil, nil, nil, nil, [NSError errorWithDomain:WPComOAuthErrorDomain code:WPComOAuthErrorCodeUnknown userInfo:@{NSLocalizedDescriptionKey: [response objectForKey:@"error_description"]}]);
             }
         } else {
-            if (_completionBlock) {
-                _completionBlock(nil, nil, nil, nil, nil);
+            if (self->_completionBlock) {
+                self->_completionBlock(nil, nil, nil, nil, nil);
             }
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -307,7 +315,7 @@ NSString *const WPComOAuthErrorDomain = @"WPComOAuthError";
 - (void)openCallbackWithQueryString:(NSString *)query {
     _isSSO = NO;
     NSString *callbackUrl = [NSString stringWithFormat:@"wordpress-%@://wordpress-sso?%@", _clientId, query];
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:callbackUrl]];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:callbackUrl] options:@{} completionHandler:nil];
 }
 
 #pragma mark - UIWebViewDelegate

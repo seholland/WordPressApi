@@ -249,7 +249,7 @@ static NSUInteger const WPXMLRPCClientDefaultMaxConcurrentOperationCount = 4;
             if ([object isKindOfClass:[NSDictionary class]] && [object objectForKey:@"faultCode"] && [object objectForKey:@"faultString"]) {
                 NSDictionary *usrInfo = [NSDictionary dictionaryWithObjectsAndKeys:[object objectForKey:@"faultString"], NSLocalizedDescriptionKey, nil];
                 error = [NSError errorWithDomain:WPXMLRPCClientErrorDomain code:[[object objectForKey:@"faultCode"] intValue] userInfo:usrInfo];
-            } else if ([object isKindOfClass:[NSArray class]] && [(NSArray*)object count] == 1) {
+            } else if ([object isKindOfClass:[NSArray class]] && [(NSArray *)object count] == 1) {
                 object = [object objectAtIndex:0];
             }
 

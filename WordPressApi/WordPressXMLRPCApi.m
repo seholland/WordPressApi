@@ -74,7 +74,7 @@ NSString *const WordPressXMLRPCApiErrorDomain = @"WordPressXMLRPCApiError";
 
 #pragma mark - Authentication
 
-- (void)authenticateWithSuccess:(void (^)())success
+- (void)authenticateWithSuccess:(void (^)(void))success
                         failure:(void (^)(NSError *error))failure {
     NSArray *parameters = [NSArray arrayWithObjects:self.username, self.password, nil];
     [self.client callMethod:@"wp.getUsersBlogs"

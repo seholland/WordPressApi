@@ -22,7 +22,7 @@
     } failure:failure];
 }
 
-+ (void)signInWithXMLRPCURL:(NSURL *)xmlrpcURL username:(NSString *)username password:(NSString *)password success:(void (^)())success failure:(void (^)(NSError *error))failure {
++ (void)signInWithXMLRPCURL:(NSURL *)xmlrpcURL username:(NSString *)username password:(NSString *)password success:(void (^)(void))success failure:(void (^)(NSError *error))failure {
     WordPressXMLRPCApi *api = [self apiWithXMLRPCURL:xmlrpcURL username:username password:password];
     [api authenticateWithSuccess:success failure:failure];
 }
